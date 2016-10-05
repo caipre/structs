@@ -17,12 +17,12 @@ class RedBlackTree(object):
     # public api
     #
 
-    def add(self, key, val):
+    def put(self, key, val):
         if self.is_null:      return RedBlackTree(key, val)
         elif not self.key:    self.assign(key, val, Color.Black)
         elif key == self.key: self.assign(key, val)
-        elif key < self.key:  self.left = self.left.add(key, val)
-        else:                 self.right = self.right.add(key, val)
+        elif key < self.key:  self.left = self.left.put(key, val)
+        else:                 self.right = self.right.put(key, val)
 
         self.rebalance()
         return self
@@ -120,16 +120,16 @@ class RedBlackTree(object):
         self.right.color = Color.Black
 
 rbt = RedBlackTree()
-rbt.add('S', 'one')
-rbt.add('E', 'two')
-rbt.add('A', 'three')
-rbt.add('R', 'four')
-rbt.add('C', 'five')
-rbt.add('H', 'six')
-rbt.add('X', 'seven')
-rbt.add('M', 'eight')
-rbt.add('P', 'nine')
-rbt.add('L', 'ten')
+rbt.put('S', 'one')
+rbt.put('E', 'two')
+rbt.put('A', 'three')
+rbt.put('R', 'four')
+rbt.put('C', 'five')
+rbt.put('H', 'six')
+rbt.put('X', 'seven')
+rbt.put('M', 'eight')
+rbt.put('P', 'nine')
+rbt.put('L', 'ten')
 
 assert rbt.get('S') == 'one'
 assert rbt.get('E') == 'two'
