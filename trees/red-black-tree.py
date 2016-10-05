@@ -64,12 +64,10 @@ class RedBlackTree(object):
         self.val, other.val = other.val, self.val
 
     def find(self, key):
-        if key == self.key:
-            return self
-        elif key < self.key:
-            return self.left.find(key)
-        else:
-            return self.right.find(key)
+        if self.is_null:      return None
+        elif key == self.key: return self
+        elif key < self.key:  return self.left.find(key)
+        else:                 return self.right.find(key)
 
     def is_red(self):
         return self.color == Color.Red
