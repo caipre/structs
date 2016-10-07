@@ -24,6 +24,7 @@ class RedBlackTree(object):
         elif key < self.key:  self.left = self.left.put(key, val)
         else:                 self.right = self.right.put(key, val)
 
+        # TODO: roll rebalance into return
         self.rebalance()
         return self
 
@@ -89,8 +90,8 @@ class RedBlackTree(object):
 
     def rotate_left(self):
         alpha = self.left
-        beta = self.right.left
         right = self.right
+        beta = self.right.left
         gamma = self.right.right
 
         self.left = right
@@ -99,11 +100,10 @@ class RedBlackTree(object):
         right.right = beta
         self.swap(right)
 
-
     def rotate_right(self):
         alpha = self.left.left
-        beta = self.left.right
         left = self.left
+        beta = self.left.right
         gamma = self.right
 
         self.left = alpha
