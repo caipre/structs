@@ -24,9 +24,7 @@ class RedBlackTree(object):
         elif key < self.key:  self.left = self.left.put(key, val)
         else:                 self.right = self.right.put(key, val)
 
-        # TODO: roll rebalance into return
-        self.rebalance()
-        return self
+        return self.rebalance()
 
     def get(self, key):
         node = self.find(key)
@@ -77,57 +75,52 @@ class RedBlackTree(object):
         return self.color == Color.Black
 
     def rebalance(self):
+        node = self
         if self.left.is_black() and self.right.is_red():
-            self.rotate_left()
+            node = self.rotate_left()
         if self.left.is_red() and self.left.left.is_red():
-            self.rotate_right()
+            node = self.rotate_right()
         if self.left.is_red() and self.right.is_red():
-            self.flip_colors()
+            node = self.flip_colors()
+        return node
 
     #      Y             X
     #    X   g   -->   a   Y
     #   a b      <--      b g
 
     def rotate_left(self):
-        alpha = self.left
         right = self.right
-        beta = self.right.left
-        gamma = self.right.right
-
-        self.left = right
-        self.right = gamma
-        right.left = alpha
-        right.right = beta
-        self.swap(right)
+        self.right = right.left
+        right.left = self
+        right.color = self.color
+        self.color = Color.Red
+        return right
 
     def rotate_right(self):
-        alpha = self.left.left
         left = self.left
-        beta = self.left.right
-        gamma = self.right
-
-        self.left = alpha
-        self.right = left
-        left.left = beta
-        left.right = gamma
-        self.swap(left)
+        self.left = left.right
+        left.right = self
+        left.color = self.color
+        self.color = Color.Red
+        return left
 
     def flip_colors(self):
         self.color = Color.Red
         self.left.color = Color.Black
         self.right.color = Color.Black
+        return self
 
 rbt = RedBlackTree()
-rbt.put('S', 'one')
-rbt.put('E', 'two')
-rbt.put('A', 'three')
-rbt.put('R', 'four')
-rbt.put('C', 'five')
-rbt.put('H', 'six')
-rbt.put('X', 'seven')
-rbt.put('M', 'eight')
-rbt.put('P', 'nine')
-rbt.put('L', 'ten')
+rbt = rbt.put('S', 'one')
+rbt = rbt.put('E', 'two')
+rbt = rbt.put('A', 'three')
+rbt = rbt.put('R', 'four')
+rbt = rbt.put('C', 'five')
+rbt = rbt.put('H', 'six')
+rbt = rbt.put('X', 'seven')
+rbt = rbt.put('M', 'eight')
+rbt = rbt.put('P', 'nine')
+rbt = rbt.put('L', 'ten')
 
 assert rbt.get('S') == 'one'
 assert rbt.get('E') == 'two'
